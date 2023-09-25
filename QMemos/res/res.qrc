@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>logo.webp</file>
+        <file>heart.png</file>
+    </qresource>
+</RCC>
