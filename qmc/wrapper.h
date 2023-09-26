@@ -7,9 +7,14 @@ class wrapper : public QNetworkAccessManager
 {
 public:
     explicit wrapper(QObject *parent = nullptr);
+
+    QNetworkAccessManager *manager;
 private:
     QString username,password,url;
     QString content;
+
+    void signin();
+
 public slots:
     bool sendMemos(QString);
 

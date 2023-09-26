@@ -17,6 +17,4 @@ void IniConfig::initialPath() {
 	}
     path = QCoreApplication::applicationDirPath() + "/data/config.ini";
 	qDebug() << "set ini path:" << path;
-    IniConfig a;
-    a.setValue("lll","lll");
 };
