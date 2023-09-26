@@ -5,7 +5,8 @@
 #include <QJsonObject>
 #include <QJsonDocument>
 
-
+#include "IniConfig.h"
+#include "wrapper.h"
 QNetworkAccessManager *manager;
 
 void postback(QNetworkReply* reply){
@@ -57,13 +58,18 @@ void post(){
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
+    IniConfig::initialPath();//必须在a出现之后，否则会有问题
+
     qDebug("hello world!");
 
     manager=new QNetworkAccessManager;
-    manager.
-    QObject::connect(manager,&QNetworkAccessManager::finished,[](auto reply){
+    //manager.
+    QObject::connect(manager,&QNetworkAccessManager::finished,[&a](auto reply){
         postback(reply);
+
     });
+
+    wrapper w;
 
     return a.exec();
 }
