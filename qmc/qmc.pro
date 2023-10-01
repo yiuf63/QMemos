@@ -25,3 +25,4 @@ INCLUDEPATH = \
     ../QMemos \
 
 
+#DESTDIR =$${BuildPath}

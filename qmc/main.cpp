@@ -4,6 +4,7 @@
 #include <QNetworkRequest>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <iostream>
 
 #include "IniConfig.h"
 #include "wrapper.h"
@@ -68,6 +69,10 @@ int main(int argc, char *argv[])
     });
 
     wrapper w;
+    QString cont;
+    QTextStream qin(stdin);
+    qin>>cont;
+    w.sendMemos(cont);
 
     return a.exec();
 }

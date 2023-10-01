@@ -10,7 +10,7 @@ public:
 
     QNetworkAccessManager *manager;
 private:
-    QString username,password,url;
+    QString username,password,url,token;
     QString content;
 
     void signin();

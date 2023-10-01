@@ -20,12 +20,12 @@ void handleResponse(QNetworkReply *reply) {
         QCoreApplication::exit(1);
         return;
     }
-
     // Read the response data
     QByteArray data = reply->readAll();
-
+    qDebug()<<data;
     // Parse the JSON data
     QJsonDocument doc = QJsonDocument::fromJson(data);
+    qDebug()<<doc;
 
     // Check if the JSON data is valid
     if (!doc.isObject()) {
@@ -39,9 +39,10 @@ void handleResponse(QNetworkReply *reply) {
     QJsonObject obj = doc.object();
 
     // Print the response status code and content
-    qDebug() << "Status code:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-    qDebug() << "Content:" << QJsonDocument(obj).toJson();
+    //qDebug() << "Status code:" << reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    //qDebug() << "Content:" << QJsonDocument(obj).toJson();
 
+    QCoreApplication::exit(0);
 }
 
 wrapper::wrapper(QObject *parent)
@@ -51,7 +52,7 @@ wrapper::wrapper(QObject *parent)
 
     // Connect the finished() signal and the handleResponse() slot
     QObject::connect(manager, &QNetworkAccessManager::finished, handleResponse);
-    signin();
+    //signin();
 }
 
 void wrapper::signin()
@@ -61,7 +62,7 @@ void wrapper::signin()
     url=a.value("login/url").toString()+"/api/v1/auth/signin";
     username=a.value("login/username").toString();
     password=a.value("login/password").toString();
-
+    token=a.value("login/access_token").toString();
     content = "Hello #memos from code";
     qDebug()<<url<<username<<password<<content;
     const QString visibility = "PRIVATE";
@@ -89,16 +90,16 @@ void wrapper::signin()
     manager->post(request, QJsonDocument(json_data).toJson());
 }
 
-bool wrapper::sendMemos(QString)
+bool wrapper::sendMemos(QString content)
 {
     IniConfig a;
     qDebug()<<a.allKeys()<<IniConfig::path;
-    url=a.value("login/url").toString()+"/api/v1/auth/signin";
+    url=a.value("login/url").toString()+"/api/v1/memo";//我去了。。。 就是这个链接不对，弄得那么久搞不定
     username=a.value("login/username").toString();
     password=a.value("login/password").toString();
+    token=a.value("login/access_token").toString();
 
-    content = "Hello #memos from code";
-    qDebug()<<url<<username<<password<<content;
+    qDebug()<<url<<username<<password<<content<<token;
     const QString visibility = "PRIVATE";
     const QJsonArray resourceIdList = QJsonArray();
     const QUrl api_url = QUrl(url);
@@ -114,16 +115,19 @@ bool wrapper::sendMemos(QString)
     QNetworkRequest request;
     request.setUrl(api_url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    request.setRawHeader("Authorization","Basic "+auth);
+    //request.setRawHeader("Authorization","Basic "+auth);
+    request.setRawHeader("Authorization","Bearer "+ token.toLatin1());
+
+    //request.setRawHeader("token",token.toLatin1());
     // Create a QNetworkAccessManager object
 
     qDebug()<<api_url;
     qDebug()<<auth;
     qDebug()<<json_data;
-
+    qDebug()<<token.toLatin1();
     // Send the POST request and get the QNetworkReply object
-    manager->post(request, QJsonDocument(json_data).toJson());
-
+    auto rep=manager->post(request, QJsonDocument(json_data).toJson());
+    handleResponse(rep);
     return false;
 }
 
