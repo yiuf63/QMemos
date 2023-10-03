@@ -3,20 +3,20 @@
 
 #TARGET = QMemos
 
-QT = core gui widgets testlib
+QT = core gui widgets network
 
 HEADERS = \
-   $$PWD/test/apitest.h \
    $$PWD/IniConfig.h \
    $$PWD/mainwindow.h \
-   $$PWD/quickmemo.h
+   $$PWD/quickmemo.h \
+   ../qmc/wrapper.h
 
 SOURCES = \
-   $$PWD/test/apitest.cpp \
    $$PWD/IniConfig.cpp \
    $$PWD/main.cpp \
    $$PWD/mainwindow.cpp \
-   $$PWD/quickmemo.cpp
+   $$PWD/quickmemo.cpp \
+   ../qmc/wrapper.cpp
 
 #INCLUDEPATH = \
 #    $$PWD/. \
@@ -32,6 +32,11 @@ FORMS += \
 
 RESOURCES  = res/res.qrc
 
-INSTALLS += target
+
+INCLUDEPATH = \
+    ../qmc
+
 
 include(QHotkey/qhotkey.pri)
+
+DESTDIR=../../QMemos

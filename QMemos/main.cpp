@@ -1,12 +1,11 @@
-#include "quickmemo.h"
 #include "IniConfig.h"
 #include "mainwindow.h"
 
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
-
-#include "test/apitest.h"
+#include <QSharedMemory>
+#include <QMessageBox>
 void configRead(){
     IniConfig::initialPath();
     IniConfig a;
@@ -23,6 +22,12 @@ int main(int argc, char *argv[]){
 
     QApplication a(argc, argv);
 
+    QSharedMemory singleton(a.applicationName());
+    if(!singleton.create(1))  {
+        QMessageBox::about(nullptr,"Info","No second start.");
+        return -1;
+    }
+
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -33,6 +38,7 @@ int main(int argc, char *argv[]){
         }
     }
 //    QuickMemo w;
+    configRead();
     MainWindow w;
     w.show();
     return a.exec();

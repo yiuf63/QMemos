@@ -61,12 +61,12 @@ int main(int argc, char *argv[])
     QCoreApplication a(argc, argv);
     IniConfig::initialPath();//必须在a出现之后，否则会有问题
 
-    manager=new QNetworkAccessManager;
-    //manager.
-    QObject::connect(manager,&QNetworkAccessManager::finished,[&a](auto reply){
-        postback(reply);
+//    manager=new QNetworkAccessManager;
+//    //manager.
+//    QObject::connect(manager,&QNetworkAccessManager::finished,[&a](auto reply){
+//        postback(reply);
 
-    });
+//    });
 
     wrapper w;
     QString cont;

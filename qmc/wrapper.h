@@ -9,11 +9,13 @@ public:
     explicit wrapper(QObject *parent = nullptr);
 
     QNetworkAccessManager *manager;
+
+    static wrapper* instances();
 private:
     QString username,password,url,token;
     QString content;
 
-    void signin();
+    static wrapper* ptr;
 
 public slots:
     bool sendMemos(QString);

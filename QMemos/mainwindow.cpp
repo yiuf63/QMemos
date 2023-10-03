@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     IniConfig a;
 
     hotkey = new QHotkey(QKeySequence(a.value("hotkey").toString()),true,qApp);
+    qDebug()<< "set hotkey"<< a.value("hotkey").toString();
     connect(hotkey,&QHotkey::activated,this,&MainWindow::whenHotkeyActivated);
     this->hide();
 }

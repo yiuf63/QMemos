@@ -2,6 +2,7 @@
 #define QUICKMEMO_H
 
 #include <QDialog>
+#include "wrapper.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class QuickMemo; }
@@ -17,9 +18,13 @@ public:
 
 protected:
     void saveQuit();
+    void keyPressEvent(QKeyEvent* event) override;
+
 
 private:
     Ui::QuickMemo *ui;
+
+    wrapper *ptr=wrapper::instances();
 };
 
 
