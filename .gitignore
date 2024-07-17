@@ -73,3 +73,11 @@ CMakeLists.txt.user*
 *.exe
 
 #libs
+
+# visual studio
+.vs/
+build/
+out/
+vcpkg_installed/
+/CMakePresets.json
+/CMakeUserPresets.json
