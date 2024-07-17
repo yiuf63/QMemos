@@ -1,4 +1,4 @@
-#ifndef WRAPPER_H
+﻿#ifndef WRAPPER_H
 #define WRAPPER_H
 
 #include <QNetworkAccessManager>
@@ -11,6 +11,9 @@ public:
     QNetworkAccessManager *manager;
 
     static wrapper* instances();
+    inline QString getUrl(){
+        return url;
+    }
 private:
     QString username,password,url,token;
     QString content;

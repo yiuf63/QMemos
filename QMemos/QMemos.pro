@@ -3,7 +3,7 @@
 
 #TARGET = QMemos
 
-QT = core gui widgets network
+QT = core gui widgets network webenginewidgets
 
 HEADERS = \
    $$PWD/IniConfig.h \

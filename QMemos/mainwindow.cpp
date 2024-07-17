@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QSystemTrayIcon>
 #include "quickmemo.h"
@@ -36,6 +36,12 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug()<< "set hotkey"<< a.value("hotkey").toString();
     connect(hotkey,&QHotkey::activated,this,&MainWindow::whenHotkeyActivated);
     this->hide();
+    QString url=a.value("memos/url").toString();
+    qDebug()<<url;
+    //ui->webEngineView->load(QUrl("111.229.25.29:5231"));
+    //ui->webEngineView->load(QUrl("https://www.bilibili.com/account/history"));
+    ui->webEngineView->load(QUrl("http://111.229.25.29:5231/"));
+
 }
 
 MainWindow::~MainWindow()
