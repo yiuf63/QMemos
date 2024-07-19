@@ -6,6 +6,8 @@
 #include <QDesktopServices>
 #include <QMenu>
 #include <QHotkey>
+#include <QNetworkCookie>
+#include <QtWebEngineWidgets/QWebEngineView>
 
 namespace Ui {
 class MainWindow;
@@ -22,7 +24,7 @@ public:
 protected:
     void whenHotkeyActivated();
     void whenTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
-
+    //showEvent)
 private:
     Ui::MainWindow *ui;
 
@@ -30,6 +32,11 @@ private:
     QSystemTrayIcon *trayIcon;
 
     QHotkey *hotkey;
+
+    void handleCookieAdded(const QNetworkCookie &cookie);
+
+    QScopedPointer<QWebEngineView> m_webview;
+    QScopedPointer<QWebEngineProfile> m_profile;
 };
 
 #endif // MAINWINDOW_H

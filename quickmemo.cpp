@@ -1,5 +1,5 @@
 #include "quickmemo.h"
-#include "./ui_quickmemo.h"
+#include "ui_quickmemo.h"
 #include <QDebug>
 #include <QKeyEvent>
 QuickMemo::QuickMemo(QWidget *parent)

@@ -9,8 +9,12 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools WebEngineWidgets Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools WebEngineWidgets Network)
+
+set(QT_DEFAULT_MAJOR_VERSION 6)
+add_subdirectory(QHotkey)
+include_directories(QHotkey/QHotkey)
 
 set(TS_FILES QMemos_en_US.ts)
 
@@ -21,6 +25,11 @@ set(PROJECT_SOURCES
         quickmemo.ui
         IniConfig.h
         IniConfig.cpp
+        wrapper.cpp
+        wrapper.h
+        mainwindow.cpp
+        mainwindow.h
+        mainwindow.ui
         ${TS_FILES}
 )
 
@@ -28,6 +37,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(QMemos
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
+        res/res.qrc
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QMemos APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -53,8 +63,12 @@ else()
     qt5_create_translation(QM_FILES ${CMAKE_SOURCE_DIR} ${TS_FILES})
 endif()
 
-target_link_libraries(QMemos PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
+target_link_libraries(QMemos PRIVATE
+    Qt${QT_VERSION_MAJOR}::Widgets
+    Qt${QT_VERSION_MAJOR}::Network
+    Qt${QT_VERSION_MAJOR}::WebEngineWidgets
+)
+target_link_libraries(QMemos PRIVATE QHotkey::QHotkey)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -81,6 +95,4 @@ if(QT_VERSION_MAJOR EQUAL 6)
 endif()
 
 
-add_subdirectory(QHotkey)
-include_directories(QHotkey/QHotkey)
-target_link_libraries(QMemos PRIVATE QHotkey)
+

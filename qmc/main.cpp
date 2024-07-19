@@ -58,6 +58,7 @@ void post(){
 
 int main(int argc, char *argv[])
 {
+    qDebug()<<"qmc starte ";
     QCoreApplication a(argc, argv);
     IniConfig::initialPath();//必须在a出现之后，否则会有问题
 

@@ -9,14 +9,14 @@ HEADERS = \
    $$PWD/IniConfig.h \
    $$PWD/mainwindow.h \
    $$PWD/quickmemo.h \
-   ../qmc/wrapper.h
+   $$PWD/wrapper.h
 
 SOURCES = \
    $$PWD/IniConfig.cpp \
    $$PWD/main.cpp \
    $$PWD/mainwindow.cpp \
    $$PWD/quickmemo.cpp \
-   ../qmc/wrapper.cpp
+   $$PWD/wrapper.cpp
 
 #INCLUDEPATH = \
 #    $$PWD/. \
@@ -33,8 +33,8 @@ FORMS += \
 RESOURCES  = res/res.qrc
 
 
-INCLUDEPATH = \
-    ../qmc
+# INCLUDEPATH = \
+#     ../qmc
 
 
 include(QHotkey/qhotkey.pri)
