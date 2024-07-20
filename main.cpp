@@ -17,7 +17,7 @@ void configRead(){
 
 int main(int argc, char *argv[]){
     //Q_INIT_RESOURCE(res);
-    qDebug()<<"qmemos starte ";
+    qDebug()<<"QMemos start ";
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QApplication a(argc, argv);

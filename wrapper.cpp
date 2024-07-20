@@ -64,8 +64,8 @@ bool wrapper::sendMemos(QString content)
 {
     if(content.isEmpty()) return false;
     IniConfig a;
-    qDebug()<<a.allKeys()<<IniConfig::path;
-    url=a.value("memos/url").toString()+"/api/v1/memo";//我去了。。。 就是这个链接不对，弄得那么久搞不定
+    qDebug()<<IniConfig::path<<a.allKeys();
+    url=a.value("memos/url").toString()+"/api/v1/memos";//我去了。。。 就是这个链接不对，弄得那么久搞不定
     username=a.value("memos/username").toString();
     password=a.value("memos/password").toString();
     token=a.value("memos/access_token").toString();

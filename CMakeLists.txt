@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.5)
 
 project(QMemos VERSION 0.1 LANGUAGES CXX)
+project(qmc VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -39,6 +40,14 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${PROJECT_SOURCES}
         res/res.qrc
     )
+    qt_add_executable(qmc
+        MANUAL_FINALIZATION
+        wrapper.cpp
+        wrapper.h
+        qmc.cpp
+        IniConfig.h
+        IniConfig.cpp
+    )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QMemos APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -67,6 +76,9 @@ target_link_libraries(QMemos PRIVATE
     Qt${QT_VERSION_MAJOR}::Widgets
     Qt${QT_VERSION_MAJOR}::Network
     Qt${QT_VERSION_MAJOR}::WebEngineWidgets
+)
+target_link_libraries(qmc PRIVATE
+    Qt${QT_VERSION_MAJOR}::Network
 )
 target_link_libraries(QMemos PRIVATE QHotkey::QHotkey)
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
