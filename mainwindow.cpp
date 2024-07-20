@@ -6,7 +6,8 @@
 #include <QWebEngineProfile>
 #include <QWebEngineCookieStore>
 #include <QWebEngineSettings>
-#include <QInputDialog>>
+#include <QInputDialog>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->showMessage("title","text",QSystemTrayIcon::Information,3000);
     QAction *quit=new QAction(QStringLiteral("quit"));
     connect(quit,&QAction::triggered,[&](){
+        m_webview.reset();//避免提示Release of profile requested but WebEnginePage still not deleted. Expect troubles !
         QCoreApplication::quit();
     });
     //添加手动设置信息的方法
@@ -30,7 +32,8 @@ MainWindow::MainWindow(QWidget *parent) :
         QString url;
         IniConfig a;
         while(url.isEmpty()){
-            url=QInputDialog::getText(this,tr("设定服务器地址"),tr("请输入memos服务器地址："));
+            url=QInputDialog::getText(this,tr("设定服务器地址"),tr("请输入memos服务器地址："),
+                                        QLineEdit::Normal,a.value("memos/url").toString());
         }
         a.setValue("memos/url",url);
     });
@@ -39,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent) :
         QString username;
         IniConfig a;
         while(username.isEmpty()){
-            username=QInputDialog::getText(this,tr("设定服务器地址"),tr("请输入memos服务器地址："));
+            username=QInputDialog::getText(this,tr("设定用户名"),tr("请输入用户名："),
+                                             QLineEdit::Normal,a.value("memos/username").toString());
         }
         a.setValue("memos/username",username);
     });
@@ -48,9 +52,10 @@ MainWindow::MainWindow(QWidget *parent) :
         QString token;
         IniConfig a;
         while(token.isEmpty()){
-            token=QInputDialog::getText(this,tr("设定服务器地址"),tr("请输入memos服务器地址："));
+            token=QInputDialog::getText(this,tr("设定access_token"),tr("请输入access_token："),
+                                          QLineEdit::Normal,a.value("memos/access_token").toString());
         }
-        a.setValue("memos/username",token);
+        a.setValue("memos/access_token",token);
     });
     trayMenu=new QMenu;
     trayMenu->addAction(setUrl);
@@ -64,6 +69,10 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(trayIcon, &QSystemTrayIcon::activated, this, &MainWindow::iconActivated);
     connect(trayIcon,&QSystemTrayIcon::activated,this,&MainWindow::whenTrayIconActivated);
     trayIcon->show();
+
+    // F5刷新
+    QShortcut *shortcut = new QShortcut(QKeySequence(Qt::Key_F5), this);
+    connect(shortcut, &QShortcut::activated, this, &MainWindow::reload);
 
     //read config
     IniConfig a;
@@ -105,6 +114,7 @@ MainWindow::~MainWindow()
 void MainWindow::whenHotkeyActivated(){
     QuickMemo w;
     w.exec();
+    reload();
 }
 
 void MainWindow::whenTrayIconActivated(QSystemTrayIcon::ActivationReason reason){

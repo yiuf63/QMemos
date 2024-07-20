@@ -19,12 +19,14 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = nullptr);
+    void reload(){
+        m_webview->reload();
+    }
     ~MainWindow();
 
 protected:
     void whenHotkeyActivated();
     void whenTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
-    //showEvent)
 private:
     Ui::MainWindow *ui;
 
