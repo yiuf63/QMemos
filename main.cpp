@@ -21,6 +21,8 @@ int main(int argc, char *argv[]){
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
 
     QApplication a(argc, argv);
+    QIcon appIcon(":/memos.png");
+    QApplication::setWindowIcon(appIcon);
 
     QSharedMemory singleton(a.applicationName());
     if(!singleton.create(1))  {

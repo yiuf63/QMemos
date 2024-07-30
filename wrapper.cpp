@@ -66,8 +66,8 @@ bool wrapper::sendMemos(QString content)
     IniConfig a;
     qDebug()<<IniConfig::path<<a.allKeys();
     url=a.value("memos/url").toString()+"/api/v1/memos";//我去了。。。 就是这个链接不对，弄得那么久搞不定
-    username=a.value("memos/username").toString();
-    password=a.value("memos/password").toString();
+    //username=a.value("memos/username").toString();
+    //password=a.value("memos/password").toString();
     token=a.value("memos/access_token").toString();
 
     qDebug()<<url<<username<<password<<content<<token;
@@ -81,7 +81,7 @@ bool wrapper::sendMemos(QString content)
         {"resourceIdList",resourceIdList}
     });
 
-    const QByteArray auth = (username + ":" + password).toUtf8().toBase64();
+    //const QByteArray auth = (username + ":" + password).toUtf8().toBase64();
     // Create a QNetworkRequest object and set the URL and HTTP method
     QNetworkRequest request;
     request.setUrl(api_url);
@@ -93,7 +93,7 @@ bool wrapper::sendMemos(QString content)
     // Create a QNetworkAccessManager object
 
     qDebug()<<api_url;
-    qDebug()<<auth;
+    //qDebug()<<auth;
     qDebug()<<json_data;
     qDebug()<<token.toLatin1();
     // Send the POST request and get the QNetworkReply object

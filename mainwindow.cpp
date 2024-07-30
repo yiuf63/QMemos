@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent) :
     trayIcon->setToolTip("QMemos");
     trayIcon->showMessage("title","text",QSystemTrayIcon::Information,3000);
     QAction *quit=new QAction(QStringLiteral("quit"));
-    connect(quit,&QAction::triggered,[&](){
+    connect(quit,&QAction::triggered,this,[&](){//修正，避免一个警告
         m_webview.reset();//避免提示Release of profile requested but WebEnginePage still not deleted. Expect troubles !
         QCoreApplication::quit();
     });
@@ -59,7 +59,7 @@ MainWindow::MainWindow(QWidget *parent) :
     });
     trayMenu=new QMenu;
     trayMenu->addAction(setUrl);
-    trayMenu->addAction(setUsername);
+    //trayMenu->addAction(setUsername);
     trayMenu->addAction(setToken);
     trayIcon->setContextMenu(trayMenu);
     trayMenu->addAction(quit);
@@ -120,7 +120,7 @@ void MainWindow::whenHotkeyActivated(){
 void MainWindow::whenTrayIconActivated(QSystemTrayIcon::ActivationReason reason){
     switch (reason) {
     case 2:;
-    case 3:this->show();
+    case 3:this->show();this->activateWindow();break;
     default:
         break;
     }
