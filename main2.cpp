@@ -5,6 +5,7 @@
 #include <QtQml/QQmlApplicationEngine>
 
 #include <QtGui/QGuiApplication>
+#include <QFile>
 int main(int argc, char **argv){
     qDebug()<<"hello world";
 
@@ -14,11 +15,18 @@ int main(int argc, char **argv){
     QGuiApplication app(argc, argv);
 
 
-    QQmlApplicationEngine appEngine;
-    appEngine.load(QUrl("qrc:/MemosPage.qml"));
 
-    if (appEngine.rootObjects().isEmpty())
-        qFatal("Failed to load sources");
+    QQmlApplicationEngine appEngine;
+    QObject::connect(
+        &appEngine,
+        &QQmlApplicationEngine::objectCreationFailed,
+        &app,
+        []() { QCoreApplication::exit(-1); },
+        Qt::QueuedConnection);
+    //appEngine.load(QUrl("qrc:/MemosPage.qml"));
+    appEngine.loadFromModule("untitled6","MemosPage");
+    // if (appEngine.rootObjects().isEmpty())
+    //     qFatal("Failed to load sources");
 
 
 

@@ -49,19 +49,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         IniConfig.h
         IniConfig.cpp
     )
-    qt_add_executable(QMemos2
-        MANUAL_FINALIZATION
-        main2.cpp
-    )
-    qt_add_resources(QMemos2 "res"
-    PREFIX "/"
-    FILES
-    "MemosPage.qml")
-qt_add_qml_module(QMemos2
-    URI BrowserUtils
-    VERSION 1.0
-    RESOURCE_PREFIX /
-)
+
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QMemos APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -95,13 +83,7 @@ target_link_libraries(qmc PRIVATE
     Qt${QT_VERSION_MAJOR}::Network
 )
 target_link_libraries(QMemos PRIVATE QHotkey::QHotkey)
-target_link_libraries(QMemos2 PRIVATE
-    Qt::Core
-    Qt::Gui
-    Qt::Qml
-    Qt::Quick
-    Qt::WebEngineQuick
-)
+
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
 # explicit, fixed bundle identifier manually though.
@@ -127,5 +109,30 @@ if(QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(QMemos)
 endif()
 
+qt_standard_project_setup(REQUIRES 6.5)
 
+qt_add_executable(QMemos2
+    main2.cpp
+)
+qt_add_qml_module(QMemos2
+    URI untitled6
+    VERSION 1.0
+    QML_FILES
+        MemosPage.qml
+)
+# set(resources_resource_files
+# "MemosPage.qml"
+# )
+# qt_add_resources(QMemos2 "res"
+# PREFIX "/qml"
+# FILES
+# ${resources_resource_files})
 
+target_link_libraries(QMemos2 PRIVATE
+    Qt::Core
+    Qt::Gui
+    Qt::Qml
+    Qt::Quick
+    Qt::WebEngineQuick
+)
+include(GNUInstallDirs)
