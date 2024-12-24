@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools WebEngineWidgets Network)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools WebEngineWidgets Network)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui Qml Quick WebEngineQuick)
 
 set(QT_DEFAULT_MAJOR_VERSION 6)
 add_subdirectory(QHotkey)
@@ -52,6 +53,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         main2.cpp
     )
+    qt_add_resources(QMemos2 "res"
+    PREFIX "/"
+    FILES
+    "MemosPage.qml")
+qt_add_qml_module(QMemos2
+    URI BrowserUtils
+    VERSION 1.0
+    RESOURCE_PREFIX /
+)
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET QMemos APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
 #                 ${CMAKE_CURRENT_SOURCE_DIR}/android)
@@ -86,7 +96,11 @@ target_link_libraries(qmc PRIVATE
 )
 target_link_libraries(QMemos PRIVATE QHotkey::QHotkey)
 target_link_libraries(QMemos2 PRIVATE
-    Qt${QT_VERSION_MAJOR}::Core
+    Qt::Core
+    Qt::Gui
+    Qt::Qml
+    Qt::Quick
+    Qt::WebEngineQuick
 )
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an
