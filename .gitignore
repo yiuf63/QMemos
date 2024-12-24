@@ -81,3 +81,8 @@ out/
 vcpkg_installed/
 /CMakePresets.json
 /CMakeUserPresets.json
+
+
+# CLion
+.idea/
+cmake-build-debug/
