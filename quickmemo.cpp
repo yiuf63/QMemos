@@ -9,6 +9,10 @@ QuickMemo::QuickMemo(QWidget *parent)
     ui->setupUi(this);
     this->setWindowFlags(Qt::Dialog|Qt::CustomizeWindowHint);
     connect(ui->btnSave,&QPushButton::clicked,this,&QuickMemo::saveQuit);
+    this->setWindowFlags(Qt::WindowStaysOnTopHint);
+    // ui->input->setStyleSheet("color: white;"
+    //                          //"selection-background-color: white;"
+    //                          );
 }
 
 QuickMemo::~QuickMemo()
